@@ -1,8 +1,8 @@
 import axios from 'axios';
 
-async function fetchPosts() {
+async function fetchPosts(page) {
   const response = await axios.get(
-    "https://jsonplaceholder.typicode.com/posts?_limit=10&_page=0"
+    `https://jsonplaceholder.typicode.com/posts?_limit=10&_page=${page}`
   );
   return response.data;
 }

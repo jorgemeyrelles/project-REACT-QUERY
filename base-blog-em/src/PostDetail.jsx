@@ -31,7 +31,7 @@ export function PostDetail({ post }) {
     isLoading,
     error,
     isError
-  } = useQuery("comments", () => fetchComments(post.id));
+  } = useQuery(`comments ${post.id}`, () => fetchComments(post.id));
 
   if (isLoading) {
     return (

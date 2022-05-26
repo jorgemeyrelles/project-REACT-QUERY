@@ -1,5 +1,6 @@
 import { useState } from "react";
-import { useQuery } from "react-query";
+import { useQuery, useQueryClient } from "react-query";
+import { useEffect } from "react/cjs/react.production.min";
 
 import { PostDetail } from "./PostDetail";
 import { fetchPosts } from "./serverClient";
@@ -16,12 +17,44 @@ export function Posts() {
   const [currentPage, setCurrentPage] = useState(0);
   const [selectedPost, setSelectedPost] = useState(null);
 
+  const queryClient = useQueryClient();
+
+  // useEffect(() => {
+  //   if (currentPage < maxPostPage) {
+  //     const nextPage = currentPage + 1;
+  //     queryClient.prefetchQuery(
+  //       ["posts", nextPage],
+  //       () => fetchPosts(nextPage));
+  //   }
+  // }, [currentPage, queryClient]);
+  const nextPage = () => {
+    if (currentPage < maxPostPage) {
+      const nextPage = currentPage + 1;
+      queryClient.prefetchQuery(
+        `posts ${nextPage}`,
+        () => fetchPosts(nextPage));
+    }
+    return setCurrentPage((previousValue) => previousValue + 1)
+  };
   // replace with useQuery
-  const { data, isLoading, isError, error }= useQuery("posts", fetchPosts);
+  const {
+    data,
+    isLoading,
+    isError,
+    error,
+    status,
+  } = useQuery(
+    `posts ${currentPage}`,
+    () => fetchPosts(currentPage),
+    {
+      staleTime: 2000,
+      keepPreviousData: true,
+    },
+    );
   if (isLoading) {
     return (
     <div style={ { width: '100%', textAlign: 'center' } }>
-      <h1>Loading ...</h1>
+      <h1>{status} ...</h1>
     </div>
     );
   }
@@ -33,6 +66,7 @@ export function Posts() {
     </div>
     )
   }
+  console.log(status);
 
   return (
     <>
@@ -48,11 +82,19 @@ export function Posts() {
         ))}
       </ul>
       <div className="pages">
-        <button disabled onClick={() => {}}>
+        <button
+          disabled={currentPage <= 0}
+          onClick={() => setCurrentPage((previousValue) => {
+            return previousValue === 0 ? 0 : previousValue - 1
+          })}
+        >
           Previous page
         </button>
         <span>Page {currentPage + 1}</span>
-        <button disabled onClick={() => {}}>
+        <button
+          disabled={currentPage >= maxPostPage}
+          onClick={() => nextPage()}
+        >
           Next page
         </button>
       </div>
