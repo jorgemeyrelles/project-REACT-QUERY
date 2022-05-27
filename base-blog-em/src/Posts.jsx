@@ -66,7 +66,7 @@ export function Posts() {
     </div>
     )
   }
-  console.log(status);
+  // console.log(status);
 
   return (
     <>
