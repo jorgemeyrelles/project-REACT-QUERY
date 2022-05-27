@@ -15,16 +15,17 @@ async function fetchComments(postId) {
 }
 
 async function deletePost(postId) {
-  const response = await axios.delete(
+  const response = await fetch(
     `https://jsonplaceholder.typicode.com/postId/${postId}`,
+    { method: "DELETE" },
   );
   return response.data;
 }
 
 async function updatePost(postId) {
-  const response = await axios.patch(
+  const response = await fetch(
     `https://jsonplaceholder.typicode.com/postId/${postId}`,
-    { data: { title: "REACT QUERY FOREVER!!!!" } }
+    { method: "PATCH", data: { title: "REACT QUERY FOREVER!!!!" } }
   );
   return response.data;
 }
