@@ -3,7 +3,7 @@ import "./App.css";
 import { InfinitePeople } from "./people/InfinitePeople";
 import { queryClient } from "./queryClient";
 import { ReactQueryDevtools } from "react-query/devtools";
-import { InfiniteSpecies } from "./species/InfiniteSpecies";
+// import { InfiniteSpecies } from "./species/InfiniteSpecies";
 
 function App() {
   return (
