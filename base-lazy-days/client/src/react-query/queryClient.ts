@@ -1,3 +1,6 @@
+import { QueryClient } from 'react-query';
+
+const queryClient = new QueryClient();
 // import { createStandaloneToast } from '@chakra-ui/react';
 // import { theme } from '../theme';
 
@@ -15,4 +18,4 @@
 // }
 
 // to satisfy typescript until this file has uncommented contents
-export {};
+export { queryClient };
